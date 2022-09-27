@@ -12,13 +12,16 @@ const setGoal = (req, res) => {
     res.status(200).json({message: 'set goal'})
 }
 
-// @desc Pust goals
-// @route Get /api/goals
+// @desc Update goal
+// @route Put /api/goals/:id
 // @access Private
 const updateGoal = (req, res) => {
     res.status(200).json({message: `Update goal ${req.params.id}`})
 }
 
+// @desc Delete goal
+// @route Delete /api/goals/:id
+// @access Private
 const deleteGoal = (req, res) => {
     res.status(200).json({message: `Delete goal ${req.params.id}`})
 }
