@@ -10,11 +10,8 @@ const {
 
 // Path plus callback functions
 
-router.get('/', getGoals);
+router.route('/').get(getGoals).post(setGoal);
 
-router.post('/', setGoal);
+router.route('/:id').all(updateGoal).delete(deleteGoal);
 
-router.put('/:id', updateGoal);
-
-router.delete('/:id', deleteGoal);
 module.exports = router
