@@ -1,3 +1,12 @@
 // Entry Point to application server
+const express = require('express');
+const dotenv = require('dotenv').config();
+const port = process.env.PORT || 5000;
 
-console.log('Lets Get it!')
+const app = express()
+
+//Creating first route
+
+app.use('/api/goals', require('./routes/goalRoutes'))
+
+app.listen(port, () => console.log(`Server started on port ${port}`))
