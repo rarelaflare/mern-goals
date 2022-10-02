@@ -6,6 +6,7 @@ const colors = require('colors');
 const connectDB = require('./config/db')
 const port = process.env.PORT || 5000;
 
+// This asynchronous Function connects to a MongoDB Instance
 connectDB()
 
 const app = express()
