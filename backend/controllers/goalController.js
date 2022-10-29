@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler')
 
+// Importing the Goal Model into the controller file
+// The Goal variable has access to the mongoose methods
 const Goal = require('../models/goalModel')
-
 
 // @desc Get goals
 // @route Get /api/goals
@@ -24,6 +25,7 @@ const Goal = require('../models/goalModel')
 
 */
 const getGoals = asyncHandler(async (req, res) => {
+    // Goal.find() finds all documents in collection
     const goals = await Goal.find()
     
     res.status(200).json(goals)
@@ -39,7 +41,7 @@ const setGoal = asyncHandler(async (req, res) => {
         throw new Error('Please enter text')
     }
 
-    // Creating a variable that uses the create method on the Goal model
+    // Creating a variable that creates one or more documents in the database
     const goal = await Goal.create({
         text: req.body.text
     })
@@ -51,6 +53,8 @@ const setGoal = asyncHandler(async (req, res) => {
 // @route Put /api/goals/:id
 // @access Private
 const updateGoal = asyncHandler(async (req, res) => {
+   
+    // Finds a single document by its id field
     const goal = await Goal.findById(req.params.id)
 
     if(!goal) {
@@ -58,6 +62,7 @@ const updateGoal = asyncHandler(async (req, res) => {
         throw new Error('Goal not found')
     }
 
+    // issues a mongodb findAndModify update command by a documents id field
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     })
@@ -75,7 +80,7 @@ const deleteGoal = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Goal not found')
     }
-
+    // remove() removes all documents that match conditions from the collection
     await goal.remove()
 
     res.status(200).json({ id: req.params.id})
