@@ -53,8 +53,6 @@ const app = express()
 
 */
 
-
-
 //To use body data a few lines of middleware are needed
 
 /*
@@ -75,9 +73,9 @@ app.use(express.json())
     object after middleware or an empty object if no body to parse
 */
 app.use(express.urlencoded({extended: false}))
+// End of Middleware
 
 //Creating first route
-
 /*
     For app.use:
     1. specify route "/api/goals"
@@ -93,6 +91,11 @@ app.use(errorHandler)
     binds and listens for connections on the specified host & port.
 
     - this method is identical to Node's http.Server.listen
+
+    Some different types of HTTP connections:
+    - short-lived connections
+    - persistent connections
+    - http pipelining
 */
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
