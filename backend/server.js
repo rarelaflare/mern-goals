@@ -84,6 +84,7 @@ app.use(express.urlencoded({extended: false}))
     2. for the 2nd argument we require a file with specific routes
 */
 app.use('/api/goals', require('./routes/goalRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 
 // Express Error Handler is overwritten
 app.use(errorHandler)
