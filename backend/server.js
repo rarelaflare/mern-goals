@@ -16,6 +16,7 @@ const colors = require('colors');
 const connectDB = require('./config/db')
 const port = process.env.PORT || 5000;
 
+
 // This asynchronous Function connects to a MongoDB Instance
 connectDB()
 
@@ -52,7 +53,27 @@ const app = express()
 
 */
 
+
+
+//To use body data a few lines of middleware are needed
+
+/*
+    express.json() parses incoming request with JSON payloads and is based on body-parser
+    - body parser for raw json
+*/
 app.use(express.json())
+
+/*
+    - parses incoming request with urlencoded payloads & is based on body-parser
+
+    - returns middleware that only parses urlencoded bodies and only looks at 
+    request where the content-type header matches the type option
+
+    - accepts only utf-8 encoding of the body
+
+    - a new body object containing the parsed data is populated on the request 
+    object after middleware or an empty object if no body to parse
+*/
 app.use(express.urlencoded({extended: false}))
 
 //Creating first route
@@ -64,7 +85,7 @@ app.use(express.urlencoded({extended: false}))
 */
 app.use('/api/goals', require('./routes/goalRoutes'))
 
-// Express Error Handler
+// Express Error Handler is overwritten
 app.use(errorHandler)
 
 
@@ -75,7 +96,7 @@ app.use(errorHandler)
 */
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
-    
+
     
 }
     );

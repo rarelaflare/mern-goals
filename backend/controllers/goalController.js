@@ -6,6 +6,23 @@ const Goal = require('../models/goalModel')
 // @desc Get goals
 // @route Get /api/goals
 // @access Private
+
+/*
+    creates a get goals function
+
+    always keep in mind the description of the function, the actual route, and the access
+*/
+
+/*
+    when we use mongoose in each function to interact with database, 
+    we get returned a promise
+    
+    - we add the async keyword to each function
+
+    - to avoid using try/catch syntax the asynchandler package is imported
+
+
+*/
 const getGoals = asyncHandler(async (req, res) => {
     const goals = await Goal.find()
     
@@ -16,6 +33,7 @@ const getGoals = asyncHandler(async (req, res) => {
 // @route Set /api/goals
 // @access Private
 const setGoal = asyncHandler(async (req, res) => {
+        
     if(!req.body.text) {
         res.status(400)
         throw new Error('Please enter text')

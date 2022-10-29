@@ -1,5 +1,10 @@
+/*
+   middleware is functions that execute during the request response cycle
+*/
+
+// Error handler to overwrite the default error handler
 const errorHandler = (err, req, res, next) => {
-    const statusCode = res.statusCode ? res.statusCode : 500
+    const statusCode = res.statusCode ? res.statusCode : 500;
 
     res.status(statusCode)
 
