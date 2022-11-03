@@ -110,7 +110,12 @@ const loginUser = asyncHandler(async(req, res) => {
     you need to add / create custome middleware function to run in the request/response cycle
 */
 const getMe = asyncHandler(async(req, res) => {
-    res.json({message: 'Display User Data '})
+    const { _id, name, email} = await User.findById(req.user.id)
+    res.json({
+        id: _id,
+        name,
+        email,
+    })
 })
 
 /*
