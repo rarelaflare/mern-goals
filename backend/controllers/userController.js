@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
+// bcrypt to hash password
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
+// Importing user model
 const User = require('../models/userModel')
 
 /*
@@ -9,7 +11,6 @@ const User = require('../models/userModel')
     @access Public
 */
 const registerUser = asyncHandler(async(req, res) => {
-    
     /* 
         Destructure the request body & create a variable for:
         'user name' = name
@@ -47,11 +48,16 @@ const registerUser = asyncHandler(async(req, res) => {
     })
 
     // Response is a user object
+    // this is the data that will get passed back
     if(user) {
         res.status(201).json({
             _id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            /*
+                passing user that's created id to the generateToken function
+            */ 
+            token: generateToken(user._id),
         })
     } else {
         res.status(400)
@@ -61,12 +67,14 @@ const registerUser = asyncHandler(async(req, res) => {
 
     res.json({message: 'Register User'})
 })
+// End of RegisterUser Function
 
 /*
     @desc Register new User
     @route POST /api/users/login
     @access Public
 */
+
 const loginUser = asyncHandler(async(req, res) => {
     
     const {email, password} = req.body
@@ -86,7 +94,8 @@ const loginUser = asyncHandler(async(req, res) => {
         res.json({
             _id: user.id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            token: generateToken(user._id),
         })
     } else {
         res.status(400)
@@ -98,11 +107,33 @@ const loginUser = asyncHandler(async(req, res) => {
 /*
     @desc Get user data
     @route POST /api/users/me
-    @access Public
+    @access Private
+    For a routes access to go from public to private (Protected route)
+    you need to add / create custome middleware function to run in the request/response cycle
 */
 const getMe = asyncHandler(async(req, res) => {
-    res.json({message: 'Display User Data '})
+    const { _id, name, email} = await User.findById(req.user.id)
+    res.json({
+        id: _id,
+        name,
+        email,
+    })
 })
+
+/*
+    Create function to generate JWT token
+
+    the user id is passed to the function
+
+    we should be able to get the user id when we send the token, this is how we VALIDATE data
+*/ 
+
+const generateToken = (id) => {
+    return jwt.sign({id}, process.env.JWT_SECRET,{
+        expiresIn: '30d',
+    })
+}
+
 
 module.exports = {
     registerUser,

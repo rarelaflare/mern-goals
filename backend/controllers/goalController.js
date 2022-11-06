@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 // Importing the Goal Model into the controller file
 // The Goal variable has access to the mongoose methods
 const Goal = require('../models/goalModel')
-
+const User = require('../models/userModel')
 // @desc Get goals
 // @route Get /api/goals
 // @access Private
@@ -26,8 +26,10 @@ const Goal = require('../models/goalModel')
 */
 const getGoals = asyncHandler(async (req, res) => {
     // Goal.find() finds all documents in collection
-    const goals = await Goal.find()
+    //const goals = await Goal.find()
     
+    const goals = await Goal.find({user: req.user.id})
+
     res.status(200).json(goals)
 })
 
@@ -43,7 +45,8 @@ const setGoal = asyncHandler(async (req, res) => {
 
     // Creating a variable that creates one or more documents in the database
     const goal = await Goal.create({
-        text: req.body.text
+        text: req.body.text,
+        user: req.user.id,
     })
 
     res.status(200).json(goal)
@@ -60,6 +63,18 @@ const updateGoal = asyncHandler(async (req, res) => {
     if(!goal) {
         res.status(400)
         throw new Error('Goal not found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    if(goal.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
     }
 
     // issues a mongodb findAndModify update command by a documents id field
@@ -80,6 +95,19 @@ const deleteGoal = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Goal not found')
     }
+
+    const user = await User.findById(req.user.id)
+
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    if(goal.user.toString() !== user.id) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
     // remove() removes all documents that match conditions from the collection
     await goal.remove()
 
