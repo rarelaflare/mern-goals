@@ -1,7 +1,7 @@
-// Connects Database to application
-
 /*
+File Connects Database to application
     All mongoose methods are asynchronous and return a promise
+    - Mongoose is an ODM
 */
 const mongoose = require('mongoose');
 
@@ -32,5 +32,6 @@ const connectDB = async () => {
         process.exit(1)
     }
 }
+
 
 module.exports = connectDB

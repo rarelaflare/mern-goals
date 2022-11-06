@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
+// bcrypt to hash password
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
+// Importing user model
 const User = require('../models/userModel')
 
 /*

@@ -1,14 +1,14 @@
-// Entry Point to application server
-// express routing & middleware framework
 /*
+Express - Routing & Middleware framework
+
+    - Entry point to Backend of application "The Server" or "Web Server"
     - use built-in require function to include express module in folder
     - require reads javascript files, executes javascript files, &
     returns the exports objects
 */
 const express = require('express');
 
-// dotenv package for environment variable
-
+// import dotenv package for environment variable
 const dotenv = require('dotenv').config();
 
 const {errorHandler} = require('./middleware/errorMiddleware')
