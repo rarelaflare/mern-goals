@@ -11,6 +11,14 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    {/* 
+    Provider component makes the redux store available
+    to any nested components that need access to r
+    redux store
+
+    - any react component in a react redux app can be connected 
+    to the store
+    */}
     <Provider store={store}>
       <App />
     </Provider>
