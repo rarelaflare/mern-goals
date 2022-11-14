@@ -67,7 +67,8 @@ function Register() {
             <p>Please Create an Account..</p>
         </section>
         <section className="form">
-            <form action="">
+            <form>
+                {/* form-group is a wrapper for each input element */}
                 <div className="form-group">
                 <input type='text' className='form-control' id='name' name='name' value={name} 
                 onChange={onChange} placeholder='Enter your name'/>

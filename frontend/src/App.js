@@ -9,6 +9,7 @@ import Header from './components/Header';
 function App() {
   return (
     <>
+    {/* The empty GTLL symbols are short-hand react fragments */}
       <Router>
         <div className='container'>
           <Header/>
